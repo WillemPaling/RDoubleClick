@@ -23,7 +23,7 @@
 
 files.get <- function(fileId, reportId){
 
-  req.url <- paste0("https://www.googleapis.com/dfareporting/v1.3/reports/",12151621,"/files/",45312608)
+  req.url <- paste0("https://www.googleapis.com/dfareporting/v1.3/reports/",reportId,"/files/",fileId)
   req <- GET(req.url,query="alt=media",config(token = DC.token))
   stop_for_status(req)
   response <- content(req,as='text')
