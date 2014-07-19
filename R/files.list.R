@@ -62,9 +62,7 @@ files.list <- function(profileId, results=10, scope='', sortField='', sortOrder=
       req.q.string <- q.string
     }
     req.url <- paste0("https://www.googleapis.com/dfareporting/v1.3/userprofiles/",profileId,"/files")
-    req <- GET(req.url,query=req.q.string,config(token = DC.token))
-    stop_for_status(req)
-    response <- fromJSON(content(req,as='text'))
+    response <- api.request(req.url,querystring=req.q.string)
     
     # Flatten the data frame for binding
     response$items$startDate <- response$items$dateRange$startDate

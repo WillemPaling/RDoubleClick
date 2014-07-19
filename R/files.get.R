@@ -24,9 +24,7 @@
 files.get <- function(fileId, reportId){
 
   req.url <- paste0("https://www.googleapis.com/dfareporting/v1.3/reports/",reportId,"/files/",fileId)
-  req <- GET(req.url,query="alt=media",config(token = DC.token))
-  stop_for_status(req)
-  response <- content(req,as='text')
+  response <- api.request(req.url,querystring="alt=media")
   
   # we have to remove parts of this text to get a readable table
   # first remove everything prior to the report field definitions (header row)

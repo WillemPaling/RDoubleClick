@@ -26,5 +26,6 @@ DCAuth <- function(client.id,client.secret){
     scope = c("https://www.googleapis.com/auth/dfareporting","https://www.googleapis.com/auth/devstorage.read_only"),cache=FALSE)
 
   DC.token <<- app.token
+  DC.authmethod <<- 'oauth'
 
 }

@@ -1,25 +1,18 @@
 #' userprofiles.list
 #'
-#' Authorise and store credentials for the DoubleClick Reporting API
+#' Lists available profiles for retrieving reports.
 #' 
-#' @title Store Credentials for the DoubleClick Reporting API
+#' @title Lists available profiles for retrieving reports.
 #'
-#' @param profileId
-#' @param maxResults
-#' @param pageToken
-#' @param scope
-#' @param sortField
-#' @param sortOrder
-#' @param fields
 #'
-#' @importFrom httr oauth_app oauth_endpoint oauth2.0_token
+#' @importFrom httr GET
 #' @importFrom jsonlite fromJSON
 #' 
 #' @return Global credentials list 'SC.Credentials'
 #' 
 #' @examples
 #' \dontrun{
-#' userprofiles.list("client.id", "client.secret")
+#' userprofiles.list()
 #' 
 #' }
 #'
@@ -27,10 +20,8 @@
 
 userprofiles.list <- function(client.id,client.secret){
 
-  req <- GET("https://www.googleapis.com/dfareporting/v1.3/userprofiles",
-    config(token = DC.token))
-  stop_for_status(req)
-  response <- fromJSON(content(req,as='text'))
+  req.url <- "https://www.googleapis.com/dfareporting/v1.3/userprofiles"
+  response <- api.request(req.url)
 
   return(response$items)
   
