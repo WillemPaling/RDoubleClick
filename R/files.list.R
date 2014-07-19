@@ -72,13 +72,6 @@ files.list <- function(profileId, results=10, scope='', sortField='', sortOrder=
     response$items$browserUrl <- response$items$urls$browserUrl
     response$items$apiUrl <- response$items$urls$apiUrl
     response$items$urls <- NULL
-    
-    if(identical(response.working,response$items)) {
-      hasNextPage <- FALSE
-      pageToken = ''
-    } else {
-      response.working <- response$items
-    }
 
     if(nrow(report)>0) {
       report <- rbind.fill(report,data.frame(response$items))
