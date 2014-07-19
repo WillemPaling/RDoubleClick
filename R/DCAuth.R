@@ -19,11 +19,18 @@
 #'
 #' @export
 
-DCAuth <- function(client.id,client.secret){
+DCAuth <- function(client.id,client.secret,runwebserver=FALSE){
   
   app.dfa <- oauth_app("google",client.id,client.secret)
-  app.token <- oauth2.0_token(oauth_endpoints("google"), app.dfa,
-    scope = c("https://www.googleapis.com/auth/dfareporting","https://www.googleapis.com/auth/devstorage.read_only"),cache=FALSE)
+  if(runwebserver) {
+    app.token <- oauth2.0_token(oauth_endpoints("google"), app.dfa,
+      scope = c("https://www.googleapis.com/auth/dfareporting","https://www.googleapis.com/auth/devstorage.read_only"),
+      cache=FALSE,options(httr_oob_default=TRUE))
+  } else {
+    app.token <- oauth2.0_token(oauth_endpoints("google"), app.dfa,
+      scope = c("https://www.googleapis.com/auth/dfareporting","https://www.googleapis.com/auth/devstorage.read_only"),
+      cache=FALSE)
+  }
 
   DC.token <<- app.token
   DC.authmethod <<- 'oauth'

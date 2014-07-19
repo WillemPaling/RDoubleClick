@@ -3,7 +3,7 @@
 \alias{DCAuth}
 \title{Store Credentials for the DoubleClick Reporting API}
 \usage{
-DCAuth(client.id, client.secret)
+DCAuth(client.id, client.secret, runwebserver = FALSE)
 }
 \arguments{
 \item{client.id}{}

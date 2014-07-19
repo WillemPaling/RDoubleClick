@@ -21,7 +21,7 @@
 userprofiles.list <- function(client.id,client.secret){
 
   req.url <- "https://www.googleapis.com/dfareporting/v1.3/userprofiles"
-  response <- api.request(req.url)
+  response <- fromJSON(api.request(req.url))
 
   return(response$items)
   
