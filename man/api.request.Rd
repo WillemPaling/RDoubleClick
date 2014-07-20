@@ -3,7 +3,7 @@
 \alias{api.request}
 \title{api.request}
 \usage{
-api.request(url, querystring = "")
+api.request(url, querystring = "", method = "GET")
 }
 \description{
 Internal Function: Make API Request

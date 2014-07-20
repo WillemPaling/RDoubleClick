@@ -1,16 +1,17 @@
 #' api.request
 #'
 #' Internal Function: Make API Request
+#' @importFrom httr GET POST stop_for_status content config
 
-api.request <- function(url, querystring=""){
+api.request <- function(url, querystring="",method="GET"){
 
   if(DC.authmethod=='oauth') {
-    req <- GET(url,query=querystring,config(token = DC.token))
-  } else {
-    if(nchar(querystring)>0) {
-      querystring <- paste0(querystring,'&key=',DC.key)
+    if(method=="GET") {
+      req <- GET(url,query=querystring,config(token = DC.token))
+    } else if (method=="POST") {
+      # requires a dummy body to avoid a content-length error
+      req <- POST(paste0(url,"?",querystring),config(token = DC.token),multipart=FALSE,body=list('dummy'))
     }
-    req <- GET(url,query=querystring)
   }
   
   stop_for_status(req)

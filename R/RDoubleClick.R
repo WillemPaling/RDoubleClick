@@ -27,4 +27,3 @@
 
 utils::globalVariables("DC.token")
 utils::globalVariables("DC.authmethod")
-utils::globalVariables("DC.key")
