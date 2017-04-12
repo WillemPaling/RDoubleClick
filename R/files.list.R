@@ -16,6 +16,7 @@
 #' "LAST_MODIFIED_TIME": Sort by 'lastmodifiedAt' field. (default)
 #' @param sortOrder Order of sorted results, default is 'DESCENDING', 'ASCENDING' is also valid.
 #' @param fields Subset of fields to include in the report
+#' @param delay Forced delay between API requests, to prevent errors 
 #'
 #' @importFrom httr GET stop_for_status content config
 #' @importFrom jsonlite fromJSON
@@ -31,7 +32,7 @@
 #'
 #' @export
 
-files.list <- function(profileId, results=10, scope='', sortField='', sortOrder='', fields=''){
+files.list <- function(profileId, results=10, scope='', sortField='', sortOrder='', fields='', delay=2){
 
   # build query string
   if(results>=10) {
@@ -86,6 +87,9 @@ files.list <- function(profileId, results=10, scope='', sortField='', sortOrder=
     } else {
       hasNextPage <- FALSE
     }
+    
+    Sys.sleep(delay)
+    
   }
   
   return(report)
