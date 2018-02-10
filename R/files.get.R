@@ -23,7 +23,7 @@
 
 files.get <- function(fileId, reportId){
 
-  req.url <- paste0("https://www.googleapis.com/dfareporting/v2.7/reports/",reportId,"/files/",fileId)
+  req.url <- paste0("https://www.googleapis.com/dfareporting/v3.0/reports/",reportId,"/files/",fileId)
   response <- api.request(req.url,querystring="alt=media")
   
   # we have to remove parts of this text to get a readable table

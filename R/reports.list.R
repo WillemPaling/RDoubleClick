@@ -1,15 +1,15 @@
-#' files.list
+#' reports.list
 #'
-#' List files available in via the DoubleClick Reporting API
+#' List reports available in via the DoubleClick Reporting API
 #' 
-#' @title List files available in via the DoubleClick Reporting API
+#' @title List reports available in via the DoubleClick Reporting API
 #'
 #' @param profileId The DFA profile ID - use userprofiles.list() to find yours
-#' @param results The number of files to return. Defaults to 10, can be increased to make multiple API requests and get more files.
+#' @param results The number of reports to return. Defaults to 10, can be increased to make multiple API requests and get more reports.
 #' @param scope The scope that defines which results are returned, default is 'MINE'. Acceptable values are:
-#' "ALL": All files in account.
-#' "MINE": My files. (default)
-#' "SHARED_WITH_ME": Files shared with me.
+#' "ALL": All reports in account.
+#' "MINE": My reports. (default)
+#' "SHARED_WITH_ME": reports shared with me.
 #' @param sortField The field by which to sort the list. 
 #' Acceptable values are:
 #'   "ID": Sort by file ID.
@@ -26,13 +26,13 @@
 #' 
 #' @examples
 #' \dontrun{
-#' files.list(1234567,results=100)
+#' reports.list(1234567,results=100)
 #' 
 #' }
 #'
 #' @export
 
-files.list <- function(profileId, reportId, results=10, scope='', sortField='', sortOrder='', fields='', delay=2){
+reports.list <- function(profileId, results=10, scope='', sortField='', sortOrder='', fields='', delay=2){
 
   # build query string
   if(results>=10) {
@@ -62,19 +62,22 @@ files.list <- function(profileId, reportId, results=10, scope='', sortField='', 
     } else {
       req.q.string <- q.string
     }
-
-    req.url <- paste0("https://www.googleapis.com/dfareporting/v3.0/userprofiles/",profileId,"/reports/",reportId,"/files")
+    req.url <- paste0("https://www.googleapis.com/dfareporting/v3.0/userprofiles/",profileId,"/reports")
     response <- api.request(req.url,querystring=req.q.string)
     response <- fromJSON(response)
     
-    # Flatten the data frame for binding
-    response$items$startDate <- response$items$dateRange$startDate
-    response$items$endDate <- response$items$dateRange$endDate
-    response$items$dateRange <- NULL
-    response$items$browserUrl <- response$items$urls$browserUrl
-    response$items$apiUrl <- response$items$urls$apiUrl
-    response$items$urls <- NULL
-
+    # kill complex nested columns as rbind.fill doesn't handle them
+    # criteria, pathToConversionCriteria, schedule, delivery
+    # @TODO: unlist instead
+    
+    response$items$criteria <- NULL
+    response$items$reachCriteria <- NULL
+    response$items$floodlightCriteria <- NULL
+    response$items$crossDimensionReachCriteria <- NULL
+    response$items$pathToConversionCriteria <- NULL
+    response$items$schedule <- NULL
+    response$items$delivery <- NULL
+    
     if(nrow(report)>0) {
       report <- rbind.fill(report,data.frame(response$items))
     } else {
